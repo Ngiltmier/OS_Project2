@@ -18,11 +18,15 @@ public class ProjectTwo {
             minMemory = Integer.parseInt(args[5]); //for random generation of memory for jobs
             maxMemory = Integer.parseInt(args[6]);
         } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("USAGE: Please enter the correct number of arguments");
+            System.out.println("Please enter the correct number of arguments");
             System.out.println("<memSize> <pageSize> <numJobs> <minRunTime> <maxRuntime> <minMemory> <maxMemory>");
             return;
         }
 
-        VirtualMemory virtualMemory = new VirtualMemory(memSize, pageSize, numJobs, minRuntime, maxRuntime, minMemory, maxMemory);
+        try {
+            VirtualMemory virtualMemory = new VirtualMemory(memSize, pageSize, numJobs, minRuntime, maxRuntime, minMemory, maxMemory);
+        } catch (Exception e) {
+            System.out.println("The memory size (args[0]) must be an even multiple of the page size (args[1])");
+        }
     }
 }
