@@ -45,13 +45,19 @@ class VirtualMemory {
         }
          */
 
+        /*
+        //TESTING PAGES
         printPagesList();
         pageList[40].assignJob(1,10);
         pageList[45].assignJob(1, 5);
-        pageList[80].assignJob(2, 12);
-        pageList[89].setAvailability(false);
+        int val = pageList[80].assignJob(2, 12);
+        System.out.println("here");
+        System.out.println(val);
+        if (val > 0)
+            pageList[81].assignJob(2, val);
         System.out.println();
         printPagesList();
+         */
     }
 
     private void createJobQueue(){
