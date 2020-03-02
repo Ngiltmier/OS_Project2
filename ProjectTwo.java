@@ -26,7 +26,7 @@ public class ProjectTwo {
         try {
             VirtualMemory virtualMemory = new VirtualMemory(memSize, pageSize, numJobs, minRuntime, maxRuntime, minMemory, maxMemory);
         } catch (Exception e) {
-            System.out.println("The memory size (args[0]) must be an even multiple of the page size (args[1])");
+            System.out.println(e.getMessage());
         }
     }
 }

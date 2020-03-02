@@ -22,7 +22,7 @@ public class VirtualMemory {
 
         if (memSize % pageSize != 0){
             //throw a custom exception
-            throw new Exception("aadsf");
+            throw new Exception("The memory size (args[0]) must be an even multiple of the page size (args[1])");
         }
     }
 }
