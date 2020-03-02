@@ -3,6 +3,8 @@
 import java.util.Random;
 
 public class VirtualMemory {
+    final static int RANDOM_SEED = 6;
+
     int memSize; //total memory size
     int pageSize; //total page size
     int numJobs; // total number of jobs allowed
@@ -10,6 +12,7 @@ public class VirtualMemory {
     int maxRuntime;
     int minMemory; //for random generation of memory for jobs
     int maxMemory;
+
     Job jobQueue[];
 
     public VirtualMemory(int memory, int page, int jobs, int min_run, int max_run, int min_mem, int max_mem) throws Exception {
@@ -25,22 +28,22 @@ public class VirtualMemory {
             //throw a custom exception
             throw new Exception("The memory size (args[0]) must be an even multiple of the page size (args[1])");
         }
-        //!!!NOT TESTED!!!
-        jobQueue = createJobQueue();
+
+        createJobQueue();
     }
 
     //creates queue of job objects !!!NOT TESTED!!!
-    Job[] createJobQueue(){
+    private void createJobQueue(){
 
-        Random rand = new Random();
-        Job job_queue[] = new Job[numJobs];
+        Random rand = new Random(RANDOM_SEED);
+        jobQueue = new Job[numJobs];
 
         for(int i = 0; i < numJobs; i++){
             int mem = rand.nextInt((maxMemory - minMemory) + 1) + minMemory; //((max - min) + 1) + min creates a range
             int run = rand.nextInt((maxRuntime - minRuntime) + 1) + minRuntime;
-            job_queue[i] = new Job(mem, run);
+            jobQueue[i] = new Job(mem, run);
         }
 
-        return job_queue;
+        
     }
 }
