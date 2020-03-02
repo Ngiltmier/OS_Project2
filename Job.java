@@ -1,5 +1,5 @@
 // creates a job object that holds a size and runtime (both of which can be changed)
-public class Job {
+class Job {
     int memory;
     int runtime;
 
@@ -8,11 +8,11 @@ public class Job {
         runtime = run;
     }
 
-    int getMemory(){return memory;}
+    public int getMemory(){return memory;}
 
-    int getRuntime(){return runtime;}
+    public int getRuntime(){return runtime;}
 
-    void setMemory(int new_mem){memory = new_mem;}
+    public void setMemory(int new_mem){memory = new_mem;}
 
-    void setRuntime(int new_run){runtime = new_run;}
+    public void setRuntime(int new_run){runtime = new_run;}
 }

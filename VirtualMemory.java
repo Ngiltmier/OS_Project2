@@ -2,20 +2,23 @@
 //Garrett Brenner and Noah Giltmier
 import java.util.Random;
 
-public class VirtualMemory {
+class VirtualMemory {
     final static int RANDOM_SEED = 6;
+    final static int TIME_SLICE = 1;
 
-    int memSize; //total memory size
-    int pageSize; //total page size
-    int numJobs; // total number of jobs allowed
-    int minRuntime; //for random generation of runtime for jobs
-    int maxRuntime;
-    int minMemory; //for random generation of memory for jobs
-    int maxMemory;
+    private int memSize; //total memory size
+    private int pageSize; //total page size
+    private int numJobs; // total number of jobs allowed
+    private int minRuntime; //for random generation of runtime for jobs
+    private int maxRuntime;
+    private int minMemory; //for random generation of memory for jobs
+    private int maxMemory;
 
-    Job jobQueue[];
+    private Job jobQueue[];
+    private Page pageList[];
 
-    public VirtualMemory(int memory, int page, int jobs, int min_run, int max_run, int min_mem, int max_mem) throws Exception {
+
+    VirtualMemory(int memory, int page, int jobs, int min_run, int max_run, int min_mem, int max_mem) throws Exception {
         memSize = memory;
         pageSize = page;
         numJobs = jobs;
@@ -30,9 +33,27 @@ public class VirtualMemory {
         }
 
         createJobQueue();
+        createPagesList();
+
+        /*
+        //TESTING JOB QUEUE
+        System.out.println("Memory: [" + minMemory + ", " + maxMemory + "]");
+        System.out.println("Runtime: [" + minRuntime + ", " + maxRuntime + "]");
+        for (int i = 0; i < jobQueue.length; i++) {
+            System.out.println("M: " + jobQueue[i].getMemory());
+            System.out.println("R: " + jobQueue[i].getRuntime() + "\n");
+        }
+         */
+
+        printPagesList();
+        pageList[40].assignJob(1,10);
+        pageList[45].assignJob(1, 5);
+        pageList[80].assignJob(2, 12);
+        pageList[89].setAvailability(false);
+        System.out.println();
+        printPagesList();
     }
 
-    //creates queue of job objects !!!NOT TESTED!!!
     private void createJobQueue(){
 
         Random rand = new Random(RANDOM_SEED);
@@ -44,6 +65,28 @@ public class VirtualMemory {
             jobQueue[i] = new Job(mem, run);
         }
 
-        
+
     }
+
+    private void createPagesList() {
+        pageList = new Page[memSize/pageSize];
+        for (int i = 0; i < memSize/pageSize; i++) {
+            Page page = new Page(pageSize, i + 1);
+            pageList[i] = page;
+        }
+    }
+
+    private void printPagesList() {
+        for (int i = 0; i < pageList.length; i++) {
+            System.out.print(pageList[i] + " ");
+            if ((i+1)%10 == 0) {
+                System.out.println();
+            }
+        }
+    }
+
+    private void roundRobin() {
+
+    }
+
 }
