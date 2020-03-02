@@ -1,12 +1,16 @@
 // creates a job object that holds a size and runtime (both of which can be changed)
 class Job {
+    String jobID;
     int memory;
     int runtime;
 
-    Job(int mem, int run){
+    Job(String jobID, int mem, int run){
+        this.jobID = jobID;
         memory = mem;
         runtime = run;
     }
+
+    public String getJobID(){return jobID;}
 
     public int getMemory(){return memory;}
 

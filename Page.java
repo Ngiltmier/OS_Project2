@@ -16,16 +16,16 @@ class Page {
     //If the jobSize required is greater than the space in this page, the remainder is returned
     //If there is enough space to hold the entire job, 0 is returned
     //If there was some assignment error, a -1 will be returned
-    public int assignJob(int jobID, int jobSize) {
+    public int assignJob(String jobID, int jobSize) {
         int returnVal = 0;
         if (!available) {
             return -1;
         } else if (jobSize > size) {
-            this.jobID = Integer.toString(jobID);
+            this.jobID = jobID;
             available = false;
             returnVal = jobSize - size;
         } else {
-            this.jobID = Integer.toString(jobID);
+            this.jobID = jobID;
             available = false;
         }
         return returnVal;

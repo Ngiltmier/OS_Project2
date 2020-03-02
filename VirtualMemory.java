@@ -1,5 +1,9 @@
 // Project 2: Simulating memory
 //Garrett Brenner and Noah Giltmier
+import sun.awt.image.ImageWatched;
+
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Random;
 
 class VirtualMemory {
@@ -14,7 +18,7 @@ class VirtualMemory {
     private int minMemory; //for random generation of memory for jobs
     private int maxMemory;
 
-    private Job jobQueue[];
+    private Queue<Job> jobQueue;
     private Page pageList[];
 
 
@@ -39,11 +43,13 @@ class VirtualMemory {
         //TESTING JOB QUEUE
         System.out.println("Memory: [" + minMemory + ", " + maxMemory + "]");
         System.out.println("Runtime: [" + minRuntime + ", " + maxRuntime + "]");
-        for (int i = 0; i < jobQueue.length; i++) {
-            System.out.println("M: " + jobQueue[i].getMemory());
-            System.out.println("R: " + jobQueue[i].getRuntime() + "\n");
+        while (!jobQueue.isEmpty()) {
+            Job j = jobQueue.poll();
+            System.out.println("M: " + j.getMemory());
+            System.out.println("R: " + j.getRuntime() + "\n");
         }
          */
+
 
         /*
         //TESTING PAGES
@@ -63,12 +69,12 @@ class VirtualMemory {
     private void createJobQueue(){
 
         Random rand = new Random(RANDOM_SEED);
-        jobQueue = new Job[numJobs];
+        jobQueue = new LinkedList<Job>();
 
         for(int i = 0; i < numJobs; i++){
             int mem = rand.nextInt((maxMemory - minMemory) + 1) + minMemory; //((max - min) + 1) + min creates a range
             int run = rand.nextInt((maxRuntime - minRuntime) + 1) + minRuntime;
-            jobQueue[i] = new Job(mem, run);
+            jobQueue.add(new Job(Integer.toString(i), mem, run));
         }
 
 
