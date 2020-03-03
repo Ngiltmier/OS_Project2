@@ -41,7 +41,10 @@ class VirtualMemory {
         createJobQueue();
         printJobQueue();
         createPagesList();
+
+        System.out.println("Scheduling...");
         schedule();
+        roundRobin();
 
         /*
         //TESTING JOB QUEUE
@@ -120,6 +123,14 @@ class VirtualMemory {
         }
     }
 
+    private void removeProcessFromPages(Job j) {
+        for (Page p : pageList) {
+            if (p.getJobID() == j.getJobID()) {
+                p.free();
+            }
+        }
+    }
+
     private void schedule() {
         while(!jobQueue.isEmpty()){
             Job inUse = jobQueue.peek();
@@ -143,31 +154,35 @@ class VirtualMemory {
     }
 
     private void roundRobin(){
-        int i = 0;
+        int timeStep = 1;
         while(!processList.isEmpty()){
-            System.out.println("Time Step " + i + ":");
-            if(i == 1){
-                for(int j = 0; j < processList.size(); j++){ //starts all processes
-                    processList.get(j).setStatus("Starting");
-                    System.out.println("    Job " + processList.get(i).getJobID() + " is " + processList.get(i).getStatus());
-                    processList.get(j).setStatus("Running");
+            for (int i = 0; i < processList.size(); i++) {
+                System.out.println("Time Step " + (timeStep) + ":");
+                if (timeStep == 1) {
+                    for (int j = 0; j < processList.size(); j++) { //starts all processes
+                        processList.get(j).setStatus("Starting");
+                        System.out.println("    Job " + processList.get(j).getJobID() + " is " + processList.get(j).getStatus());
+                        processList.get(j).setStatus("Running");
+                    }
                 }
-            }
-            Job inUse = processList.get(i);
-            if(inUse.getStatus().equals("Running")) {
+                Job inUse = processList.get(i);
+                if (inUse.getStatus().equals("Running")) {
 
-                System.out.println("    Job " + inUse.getJobID() + " is " + inUse.getStatus());
-                inUse.setRuntime(inUse.getRuntime() - TIME_SLICE); // run it for one time step
-                if(inUse.getRuntime()==0){
-                    inUse.setStatus("Completed");
                     System.out.println("    Job " + inUse.getJobID() + " is " + inUse.getStatus());
-                    //Remove Process from pages
-                    processList.remove(i);
-                }
+                    inUse.setRuntime(inUse.getRuntime() - TIME_SLICE); // run it for one time step
+                    if (inUse.getRuntime() == 0) {
+                        inUse.setStatus("Completed");
+                        System.out.println("    Job " + inUse.getJobID() + " is " + inUse.getStatus());
+                        //Remove Process from pages
+                        removeProcessFromPages(inUse);
+                        processList.remove(i);
+                    }
 
+                }
+                // Print Page table
+                //printPagesList();
+                timeStep++;
             }
-            // Print Page table
-            i++;
         }
     }
 

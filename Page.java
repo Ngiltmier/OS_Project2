@@ -36,6 +36,10 @@ class Page {
         available = true;
     }
 
+    public String getJobID() {
+        return jobID;
+    }
+
     @Override
     public String toString() {
         if (available) {
