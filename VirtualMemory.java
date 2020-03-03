@@ -19,6 +19,7 @@ class VirtualMemory {
 
     private Queue<Job> jobQueue;
     private Page pageList[];
+    private Job processList[];
 
 
     VirtualMemory(int memory, int page, int jobs, int min_run, int max_run, int min_mem, int max_mem) throws Exception {
@@ -39,6 +40,7 @@ class VirtualMemory {
         createJobQueue();
         printJobQueue();
         createPagesList();
+        schedule();
 
         /*
         //TESTING JOB QUEUE
@@ -117,15 +119,15 @@ class VirtualMemory {
         }
     }
 
-    private void roundRobin() {
-        int timeElapsed = 0;
+    private void schedule() {
+        int processNum = 0;
 
         while(!jobQueue.isEmpty()){
             Job inUse = jobQueue.peek();
             int val = -1;
             for(int i =0; i < pageList.length; i++){
                 val = pageList[i].assignJob(inUse.getJobID(),inUse.getMemory());
-                if(val == 0){ //returns 0 if page is big enough for job
+                if(val == 0){//returns 0 if page is big enough for job
                     break;
                 }
                 else if(val > 0){
@@ -134,13 +136,9 @@ class VirtualMemory {
             }
 
             if(val == 0){
-                jobQueue.poll();
+                processList[processNum] = jobQueue.poll();
+                processNum++;
             }
-            System.out.println("Job " + inUse.getJobID() + " is " + inUse.getStatus());
-
-            //inUse.setRuntime(inUse.getRuntime() - TIME_SLICE);
-
-            timeElapsed++;
         }
 
     }
