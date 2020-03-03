@@ -122,7 +122,7 @@ class VirtualMemory {
                 System.out.println("\n");
             }
         }
-        System.out.println();
+        System.out.println("\n");
     }
 
     private void removeProcessFromPages(Job j) {
