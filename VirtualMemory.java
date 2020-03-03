@@ -121,6 +121,7 @@ class VirtualMemory {
                 System.out.println("\n");
             }
         }
+        System.out.println();
     }
 
     private void removeProcessFromPages(Job j) {
@@ -147,6 +148,8 @@ class VirtualMemory {
 
             if(val == 0){
                 processList.add(jobQueue.poll());
+            } else {
+                roundRobin();
             }
 
         }
@@ -180,7 +183,7 @@ class VirtualMemory {
 
                 }
                 // Print Page table
-                //printPagesList();
+                printPagesList();
                 timeStep++;
             }
         }
