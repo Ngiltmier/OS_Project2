@@ -3,6 +3,7 @@ class Job {
     String jobID;
     int memory;
     int runtime;
+    String status = "Ready"; //Ready, Started, Running, Finished
 
     Job(String jobID, int mem, int run){
         this.jobID = jobID;
@@ -19,4 +20,10 @@ class Job {
     public void setMemory(int new_mem){memory = new_mem;}
 
     public void setRuntime(int new_run){runtime = new_run;}
+
+    public String getStatus(){return status;}
+
+    public void setStatus(String s){status = s;}
+
+
 }

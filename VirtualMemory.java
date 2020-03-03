@@ -1,6 +1,5 @@
 // Project 2: Simulating memory
 //Garrett Brenner and Noah Giltmier
-import sun.awt.image.ImageWatched;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -86,7 +85,7 @@ class VirtualMemory {
         for(int i = 0; i < numJobs; i++){
             int mem = rand.nextInt((maxMemory - minMemory) + 1) + minMemory; //((max - min) + 1) + min creates a range
             int run = rand.nextInt((maxRuntime - minRuntime) + 1) + minRuntime;
-            jobQueue.add(new Job(Integer.toString(i), mem, run));
+            jobQueue.add(new Job(Integer.toString(i + 1), mem, run));
         }
 
 
@@ -119,6 +118,30 @@ class VirtualMemory {
     }
 
     private void roundRobin() {
+        int timeElapsed = 0;
+
+        while(!jobQueue.isEmpty()){
+            Job inUse = jobQueue.peek();
+            int val = -1;
+            for(int i =0; i < pageList.length; i++){
+                val = pageList[i].assignJob(inUse.getJobID(),inUse.getMemory());
+                if(val == 0){ //returns 0 if page is big enough for job
+                    break;
+                }
+                else if(val > 0){
+                    inUse.setMemory(val); // val is remainder of job memory that still needs a home
+                }
+            }
+
+            if(val == 0){
+                jobQueue.poll();
+            }
+            System.out.println("Job " + inUse.getJobID() + " is " + inUse.getStatus());
+
+            //inUse.setRuntime(inUse.getRuntime() - TIME_SLICE);
+
+            timeElapsed++;
+        }
 
     }
 
