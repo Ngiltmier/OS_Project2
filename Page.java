@@ -30,6 +30,12 @@ class Page {
         }
         return returnVal;
     }
+
+    public void free() {
+        jobID = null;
+        available = true;
+    }
+
     @Override
     public String toString() {
         if (available) {
