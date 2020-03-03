@@ -17,6 +17,7 @@ class VirtualMemory {
     private int maxRuntime;
     private int minMemory; //for random generation of memory for jobs
     private int maxMemory;
+    private int bigTimeStep = 1;
 
     private Queue<Job> jobQueue;
     private Page pageList[];
@@ -157,10 +158,11 @@ class VirtualMemory {
     }
 
     private void roundRobin(){
-        int timeStep = 1;
         while(!processList.isEmpty()){
+            int timeStep = 1;
             for (int i = 0; i < processList.size(); i++) {
-                System.out.println("Time Step " + (timeStep) + ":");
+                bigTimeStep += timeStep;
+                System.out.println("Time Step " + (bigTimeStep) + ":");
                 if (timeStep == 1) {
                     for (int j = 0; j < processList.size(); j++) { //starts all processes
                         processList.get(j).setStatus("Starting");
