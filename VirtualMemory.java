@@ -36,7 +36,9 @@ class VirtualMemory {
             throw new Exception("The memory size (args[0]) must be an even multiple of the page size (args[1])");
         }
 
+        printStartingInfo();
         createJobQueue();
+        printJobQueue();
         createPagesList();
 
         /*
@@ -66,6 +68,16 @@ class VirtualMemory {
          */
     }
 
+    private void printStartingInfo() {
+        String info = "Memory Size: " + memSize + "\n";
+        info += "Page Size: " + pageSize + "\n";
+        info += "Random Seed: " + RANDOM_SEED + "\n";
+        info += "Number of Jobs: " + numJobs + "\n";
+        info += "Runtime (min-max) timesteps:" + minRuntime + "-" + maxRuntime + "\n";
+        info += "Memory (min-max): " + minMemory + "-" + maxMemory + "\n";
+        System.out.println(info);
+    }
+
     private void createJobQueue(){
 
         Random rand = new Random(RANDOM_SEED);
@@ -80,6 +92,15 @@ class VirtualMemory {
 
     }
 
+    private void printJobQueue(){
+        System.out.println("Job Queue:");
+        System.out.println("Job #    Runtime    Memory");
+        for (Job j : jobQueue) {
+            System.out.println(j.getJobID() + "        " + j.getRuntime() + "         " + j.getMemory());
+        }
+        System.out.println();
+    }
+
     private void createPagesList() {
         pageList = new Page[memSize/pageSize];
         for (int i = 0; i < memSize/pageSize; i++) {
@@ -92,7 +113,7 @@ class VirtualMemory {
         for (int i = 0; i < pageList.length; i++) {
             System.out.print(pageList[i] + " ");
             if ((i+1)%10 == 0) {
-                System.out.println();
+                System.out.println("\n");
             }
         }
     }
