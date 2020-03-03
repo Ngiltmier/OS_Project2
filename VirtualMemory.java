@@ -1,6 +1,7 @@
 // Project 2: Simulating memory
 //Garrett Brenner and Noah Giltmier
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
@@ -19,7 +20,7 @@ class VirtualMemory {
 
     private Queue<Job> jobQueue;
     private Page pageList[];
-    private Job processList[];
+    private ArrayList<Job> processList = new ArrayList<>();
 
 
     VirtualMemory(int memory, int page, int jobs, int min_run, int max_run, int min_mem, int max_mem) throws Exception {
@@ -120,8 +121,6 @@ class VirtualMemory {
     }
 
     private void schedule() {
-        int processNum = 0;
-
         while(!jobQueue.isEmpty()){
             Job inUse = jobQueue.peek();
             int val = -1;
@@ -136,11 +135,41 @@ class VirtualMemory {
             }
 
             if(val == 0){
-                processList[processNum] = jobQueue.poll();
-                processNum++;
+                processList.add(jobQueue.poll());
             }
+
         }
 
     }
+
+    private void roundRobin(){
+        int i = 0;
+        while(!processList.isEmpty()){
+            System.out.println("Time Step " + i + ":");
+            if(i == 1){
+                for(int j = 0; j < processList.size(); j++){ //starts all processes
+                    processList.get(j).setStatus("Starting");
+                    System.out.println("    Job " + processList.get(i).getJobID() + " is " + processList.get(i).getStatus());
+                    processList.get(j).setStatus("Running");
+                }
+            }
+            Job inUse = processList.get(i);
+            if(inUse.getStatus().equals("Running")) {
+
+                System.out.println("    Job " + inUse.getJobID() + " is " + inUse.getStatus());
+                inUse.setRuntime(inUse.getRuntime() - TIME_SLICE); // run it for one time step
+                if(inUse.getRuntime()==0){
+                    inUse.setStatus("Completed");
+                    System.out.println("    Job " + inUse.getJobID() + " is " + inUse.getStatus());
+                    //Remove Process from pages
+                    processList.remove(i);
+                }
+
+            }
+            // Print Page table
+            i++;
+        }
+    }
+
 
 }
