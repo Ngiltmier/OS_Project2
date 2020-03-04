@@ -165,17 +165,23 @@ class VirtualMemory {
 
     // Round Robin Scheduling using process list until process list runs out
     private void roundRobin(){
+        System.out.println("Round Robin Starting");
+
+        System.out.println("Time Step " + (bigTimeStep) + ":");
+
+        for (int j = 0; j < processList.size(); j++) { //starts all processes
+            processList.get(j).setStatus("Starting");
+            System.out.println("    Job " + processList.get(j).getJobID() + " is " + processList.get(j).getStatus());
+            processList.get(j).setStatus("Running");
+        }
+
+        int count = 0;
         while(!processList.isEmpty()){
-            int timeStep = 1;
+
             for (int i = 0; i < processList.size(); i++) {
-                bigTimeStep += timeStep;
-                System.out.println("Time Step " + (bigTimeStep) + ":");
-                if (timeStep == 1) {
-                    for (int j = 0; j < processList.size(); j++) { //starts all processes
-                        processList.get(j).setStatus("Starting");
-                        System.out.println("    Job " + processList.get(j).getJobID() + " is " + processList.get(j).getStatus());
-                        processList.get(j).setStatus("Running");
-                    }
+
+                if (count != 0) {
+                    System.out.println("Time Step " + (bigTimeStep) + ":");
                 }
                 Job inUse = processList.get(i);
                 if (inUse.getStatus().equals("Running")) {// if process is running
@@ -193,8 +199,9 @@ class VirtualMemory {
                 }
                 // Print Page table
                 printPagesList();
-                timeStep++;
+                bigTimeStep++;
             }
+            count++;
         }
     }
 
