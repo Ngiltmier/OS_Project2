@@ -36,7 +36,7 @@ FILE=
 #
 
 .java.class:
-        $(JC) $(JFLAGS) $*.java
+	$(JC) $(JFLAGS) $*.java
 
 
 #
@@ -49,8 +49,8 @@ FILE=
 # NAME = Camilo        Juan
 
 CLASSES = \
-        ProjectTwo.java \
-        Job.java \
+	ProjectTwo.java \
+	Job.java \
 	Page.java \
 	VirtualMemory.java
 
@@ -92,4 +92,4 @@ run: $(MAIN).class
 #
 
 clean:
-        $(RM) *.class
+	$(RM) *.class
