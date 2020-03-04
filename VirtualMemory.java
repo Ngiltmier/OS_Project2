@@ -17,13 +17,13 @@ class VirtualMemory {
     private int maxRuntime;
     private int minMemory; //for random generation of memory for jobs
     private int maxMemory;
-    private int bigTimeStep = 1;
+    private int bigTimeStep = 1;// counter for scheduling
 
-    private Queue<Job> jobQueue;
-    private Page pageList[];
-    private ArrayList<Job> processList = new ArrayList<>();
+    private Queue<Job> jobQueue; // Queue for putting into pages
+    private Page pageList[]; // Memory holding all pages
+    private ArrayList<Job> processList = new ArrayList<>(); // Job list for Round Robin Scheduling
 
-
+    // constructor
     VirtualMemory(int memory, int page, int jobs, int min_run, int max_run, int min_mem, int max_mem) throws Exception {
         memSize = memory;
         pageSize = page;
@@ -73,7 +73,7 @@ class VirtualMemory {
         printPagesList();
          */
     }
-
+    // Creates desired output (begining of it)
     private void printStartingInfo() {
         String info = "Memory Size: " + memSize + "\n";
         info += "Page Size: " + pageSize + "\n";
@@ -84,6 +84,7 @@ class VirtualMemory {
         System.out.println(info);
     }
 
+    // creates Queue of job objects holding a random memory and random runtime
     private void createJobQueue(){
 
         Random rand = new Random(RANDOM_SEED);
@@ -98,6 +99,7 @@ class VirtualMemory {
 
     }
 
+    // prints the job queue of job objects
     private void printJobQueue(){
         System.out.println("Job Queue:");
         System.out.println("Job #    Runtime    Memory");
@@ -107,6 +109,7 @@ class VirtualMemory {
         System.out.println();
     }
 
+    // builds pages and puts them into the memory list
     private void createPagesList() {
         pageList = new Page[memSize/pageSize];
         for (int i = 0; i < memSize/pageSize; i++) {
@@ -115,6 +118,7 @@ class VirtualMemory {
         }
     }
 
+    // print method for page list
     private void printPagesList() {
         for (int i = 0; i < pageList.length; i++) {
             System.out.print(pageList[i] + " ");
@@ -125,6 +129,7 @@ class VirtualMemory {
         System.out.println("\n");
     }
 
+    // removes job from pages (provides extra space for other insertions if necessary)
     private void removeProcessFromPages(Job j) {
         for (Page p : pageList) {
             if (p.getJobID() == j.getJobID()) {
@@ -133,6 +138,7 @@ class VirtualMemory {
         }
     }
 
+    // Uses Job queue to put Jobs into page tables until the page tables run out (Creates process list)
     private void schedule() {
         while(!jobQueue.isEmpty()){
             Job inUse = jobQueue.peek();
@@ -150,13 +156,14 @@ class VirtualMemory {
             if(val == 0){
                 processList.add(jobQueue.poll());
             } else {
-                roundRobin();
+                roundRobin(); // calls the RR scheduler once the page tables are full or there are no jobs left
             }
 
         }
 
     }
 
+    // Round Robin Scheduling using process list until process list runs out
     private void roundRobin(){
         while(!processList.isEmpty()){
             int timeStep = 1;
@@ -171,7 +178,7 @@ class VirtualMemory {
                     }
                 }
                 Job inUse = processList.get(i);
-                if (inUse.getStatus().equals("Running")) {
+                if (inUse.getStatus().equals("Running")) {// if process is running
 
                     System.out.println("    Job " + inUse.getJobID() + " is " + inUse.getStatus());
                     inUse.setRuntime(inUse.getRuntime() - TIME_SLICE); // run it for one time step

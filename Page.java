@@ -1,3 +1,4 @@
+// Creates a Page object with size and availablility check
 class Page {
     private String jobID;
     private int size;

@@ -1,4 +1,6 @@
 // creates a job object that holds a size and runtime (both of which can be changed)
+// Also holds an ID (number toString that numbers the process)
+// And a status
 class Job {
     String jobID;
     int memory;

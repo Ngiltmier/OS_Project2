@@ -1,5 +1,5 @@
 public class ProjectTwo {
-
+    
     public static void main(String[] args) {
         int memSize; //total memory size
         int pageSize; //total page size
